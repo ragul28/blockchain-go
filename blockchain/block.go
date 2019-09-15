@@ -1,10 +1,5 @@
 package blockchain
 
-import (
-	"bytes"
-	"crypto/sha256"
-)
-
 type Blockchain struct {
 	Blocks []*Block
 }
@@ -13,20 +8,18 @@ type Block struct {
 	Hash     []byte
 	Data     []byte
 	PrevHash []byte
-}
-
-// Generate Hash for block
-func HashGen(Data string, PrevHash []byte) []byte {
-	info := bytes.Join([][]byte{[]byte(Data), PrevHash}, []byte{})
-	hash := sha256.Sum256(info)
-	return hash[:]
+	Nonce    int
 }
 
 // Create & Add Blocks to blockchain
 func CreateBlock(Data string, PrevHash []byte) *Block {
 
-	hash := HashGen(Data, PrevHash)
-	block := &Block{hash, []byte(Data), PrevHash}
+	block := &Block{[]byte{}, []byte(Data), PrevHash, 0}
+	pow := NewProof(block)
+	nonce, hash := pow.Run()
+
+	block.Hash = hash[:]
+	block.Nonce = nonce
 
 	return block
 }
