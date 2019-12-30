@@ -10,7 +10,7 @@ import (
 	"math/big"
 )
 
-const Difficulty = 12
+const Difficulty = 16
 
 type ProofOfWork struct {
 	Block  *Block
@@ -46,6 +46,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 
 	nonce := 0
 
+	fmt.Printf("blockchain POW: \"%s\"\n", pow.Block.Data)
 	for nonce < math.MaxInt64 {
 		data := pow.InitData(nonce)
 		hash = sha256.Sum256(data)

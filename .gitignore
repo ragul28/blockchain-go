@@ -12,6 +12,7 @@ bin/
 */bin/*
 tmp/
 dist/
+db/
 
 # Unignore files
 !Dockerfile
